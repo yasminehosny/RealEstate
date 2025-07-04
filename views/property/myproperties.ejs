@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Properties</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/properties.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <style>
+    
+    .icon {
+      position: relative;
+    }
+
+    .arrow_icon {
+      position: absolute;
+      bottom: 3vh;
+      right: 50%;
+      font-size: 20px;
+      color: #0b3553;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .arrow_icon:hover {
+      transform: scale(1.2);
+      color: #f39c12;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+ .buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #f4f4f4;
+            
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color:  #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e67e22 ;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    /* ✅ تنسيق البطاقة */
+    .property-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background: #fefefe;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .property-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .property-details {
+      margin-top: 10px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #0b3553;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>My Properties</h1>
+
+    <% if (arr.length === 0) { %> 
+      <p>There are currently no properties to display</p>
+    <% } else { %>
+      <div class="properties">
+        <% arr.forEach(property => { %>
+          <div class="property-card">
+            <img src="/uploads/<%= property.images[0] %>" class="property-image" alt="">
+            <div class="property-details">
+              <h3><%= property.address %></h3>
+              <p><%= property.description %></p>
+              <span class="price"><%= property.price %> EGP</span>
+            </div>
+
+            <div class="icon">
+              <a href="/property/details/<%= property._id %>" class="arrow_icon">
+                more <i class="fa-solid fa-circle-arrow-right"></i>
+              </a>
+            </div>
+
+            <div class="buttons">
+              <a href="/property/editProperty/<%= property._id %>">
+                <button class="button">Edit</button>
+              </a>
+
+              <form action="/property/delete/<%= property._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
+                <button class="button" type="submit">Delete</button>
+              </form>
+
+              <a href="/property/mybooks/<%= property._id %>">
+                <button class="button">My Books</button>
+              </a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+</body>
+</html>

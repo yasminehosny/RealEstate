@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Bookings</title>
+  <link rel="stylesheet" href="/mybooks.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bookings for Property</h1>
+     
+        <% if (bookings.length === 0) { %>
+          <p>No bookings yet for this property.</p>
+        <% } else { %>
+          <div class="bookings-list">
+            <% bookings.forEach(booking => { %>
+              <div class="booking-item">
+                <% if (booking.userID && booking.userID.username) { %>
+                  <p><strong>User:</strong> <%= booking.userID.username %></p>
+                <% } else { %>
+                  <p><strong>User:</strong> User not found</p>
+                <% } %>
+      
+                <% if (booking.propertyID && booking.propertyID.address) { %>
+                
+                <% } else { %>
+                  <p><strong>Property Address:</strong> Not found</p>
+                <% } %>
+      
+                <p><strong>Date & Time:</strong> 
+                  <%= booking.datetime.toLocaleDateString() %> 
+                  at 
+                  <%= booking.datetime.toLocaleTimeString() %>
+                </p>
+                <div class="button-group ">
+                <button class="approve-btn" data-booking-id="<%= booking._id %>" data-user-id="<%= booking.userID._id %>">Approve</button>
+
+                <button class="reject-btn" data-booking-id="<%= booking._id %>" data-user-id="<%= booking.userID._id %>">Reject</button>
+
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+      
+     <script>
+document.querySelectorAll('.reject-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    const bookingId = button.getAttribute('data-booking-id');
+    const userId = button.getAttribute('data-user-id');
+
+    const confirmed = confirm("Are you sure you want to reject this booking?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/bookings/${bookingId}/reject`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userID: userId })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      if (res.ok) {
+        button.closest('.booking-item').remove();  // شيل الكرت من الصفحة
+      }
+
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error rejecting booking');
+    }
+  });
+});
+document.querySelectorAll('.approve-btn').forEach(button => {
+  button.addEventListener('click', async () => {
+    const bookingId = button.getAttribute('data-booking-id');
+    const userId = button.getAttribute('data-user-id');
+
+    const confirmed = confirm("Are you sure you want to approve this booking?");
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/bookings/${bookingId}/approve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userID: userId })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+
+      if (res.ok) {
+        button.closest('.booking-item').remove();  // شيل الكرت من الصفحة لو عايز
+      }
+
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error approving booking');
+    }
+  });
+});
+</script>
+ 
+</body>
+</html>

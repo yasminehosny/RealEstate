@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Bookings</title>
+  <link rel="stylesheet" href="/all.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-gauge"></i> Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/users" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Users</span>
+        </a>
+        <a href="/admin/properties" class="nav-item">
+          <i class="fa-solid fa-building"></i>
+          <span>Properties</span>
+        </a>
+        <a href="/admin/bookings" class="nav-item active">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Bookings</span>
+        </a>
+        <a href="/admin/categories" class="nav-item">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categories</span>
+        </a>
+        <a href="/admin/feedbacks" class="nav-item">
+          <i class="fa-solid fa-comments"></i>
+          <span>Feedbacks</span>
+        </a>
+        <a href="/admin/messages" class="nav-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Messages</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1><i class="fa-solid fa-calendar-check"></i> Bookings Management</h1>
+          <p>Manage all property bookings in the platform</p>
+        </div>
+        <div class="page-header-right">
+          <button class="btn btn-outline" onclick="location.reload()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <form method="post" action="/admin/logout" style="display:inline;">
+            <button class="btn btn-danger" type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Property ID</th>
+                <th>Owner</th>
+                <th>User</th>
+                <th>Property</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% bookings.forEach(booking => { %>
+                <tr>
+                  <td>
+                    <span class="booking-id">#<%= booking._id %></span>
+                  </td>
+                  <td>
+                    <span class="property-id"><%= booking.propertyID ? booking.propertyID._id : 'N/A' %></span>
+                  </td>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                      </div>
+                      <div class="user-details">
+                        <span class="user-name"><%= booking.propertyID && booking.propertyID.userID && booking.propertyID.userID.username ? booking.propertyID.userID.username : 'N/A' %></span>
+                        <span class="user-email"><%= booking.propertyID && booking.propertyID.userID && booking.propertyID.userID.email ? booking.propertyID.userID.email : 'N/A' %></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                      </div>
+                      <div class="user-details">
+                        <span class="user-name"><%= booking.userID ? booking.userID.username : 'N/A' %></span>
+                        <span class="user-email"><%= booking.userID ? booking.userID.email : 'N/A' %></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <% if (booking.propertyID && booking.propertyID._id) { %>
+                      <a href="/property/details/<%= booking.propertyID._id %>" class="btn btn-outline btn-sm" target="_blank">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> More
+                      </a>
+                    <% } else { %>
+                      N/A
+                    <% } %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

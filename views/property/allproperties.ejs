@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Properties</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/properties.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>All Properties</h1>
+    <div class="properties">
+      <% arr.forEach(property => { %>
+        <div class="property-card">
+          <img src="/uploads/<%= property.images[0] %>" class="property-image" alt="Property Image">
+          
+          <div class="property-details">
+            <h3><%= property.address %></h3>
+            <p><%= property.description %></p>
+            <span class="price"><%= property.price %> EGP</span>
+          </div>
+
+          <!-- زر التفاصيل (يمين) -->
+         <div class="card-actions">
+  <!-- زر المفضلة -->
+  <form action="/favorite/<%= property._id %>" method="GET" style="margin: 0;">
+    <button type="submit" style="background: none; border: none;">
+      <% if (user && user.favorites && user.favorites.includes(property._id.toString())) { %>
+        <i class="fa-solid fa-heart"></i>
+      <% } else { %>
+        <i class="fa-regular fa-heart"></i>
+      <% } %>
+    </button>
+  </form>
+
+  <!-- زر التفاصيل -->
+  <a href="/property/details/<%= property._id %>">
+    <i class="fa-solid fa-circle-arrow-right"></i>
+  </a>
+</div>
+
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const favoriteStatus = urlParams.get('favorite');
+    if (favoriteStatus === 'added') {
+      alert("✅ The property has been added to the option");
+    } else if (favoriteStatus === 'removed') {
+      alert("❌ The property has been removed from the property");
+    }
+  </script>
+</body>
+</html>

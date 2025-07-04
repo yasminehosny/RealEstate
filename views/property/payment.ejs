@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Confirm Payment</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .payment-box {
+      max-width: 520px;
+      margin: 70px auto;
+      background-color: #ffffff;
+      padding: 35px 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #0b3553;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .amount {
+      font-size: 28px;
+      color: #28a745;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .note {
+      font-size: 15px;
+      color: #6c757d;
+      margin-bottom: 15px;
+    }
+    .paymob-text {
+      font-size: 14px;
+      color: #6c757d;
+      margin-top: 10px;
+    }
+    .btn-pay {
+      background-color: #ff9f1a;
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .btn-pay:hover {
+      background-color: #e68a14;
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-box">
+    <h2>Confirm Your Payment</h2>
+
+    <p class="note">
+      This amount represents 
+      <% if (propertyStatus === 'rent') { %>
+        10% of the rental price
+      <% } else if (propertyStatus === 'sell') { %>
+        15% of the selling price
+      <% } else { %>
+        a service fee based on property status
+      <% } %>
+    </p>
+
+    <div class="amount">EGP <%= amount %></div>
+
+    <p class="paymob-text">
+      You will be redirected to <strong>Paymob</strong> to complete your payment securely.
+    </p>
+
+    <form action="/pay" method="POST">
+     <input type="hidden" name="propertyID" value="<%= property._id %>" />
+
+      <button type="submit" class="btn btn-pay btn-block mt-4 py-2">Pay Now</button>
+    </form>
+  </div>
+</body>
+</html>

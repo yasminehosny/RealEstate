@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .header {
+      background-color: #ff8c00;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .btn-custom {
+      background-color: #ff8c00;
+      color: white;
+    }
+    .btn-custom:hover {
+      background-color: #e67e00;
+    }
+    .property-card {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .property-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body class="bg-light text-center">
+  <div class="container py-5">
+    <h1 class="mb-4 header">Favorites List</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <% if (favorites.length === 0) { %>
+          <p class="text-muted">No properties found in favorites.</p>
+        <% } else { %>
+          <% favorites.forEach((property, index) => { %>
+            <div class="property-card">
+               <img src="/uploads/<%= property.images[0] %>" class="property-image" alt="Property Image">
+              <div class="text-start flex-grow-1">
+                <h6><%= property.address || "No Address" %></h6>
+                <p class="mb-0"><strong>Description:</strong> <%= property.description || "No Description" %></p>
+                <p class="mb-0"><strong>Price:</strong> $<%= property.price?.toLocaleString() || 0 %></p>
+              </div>
+              <div>
+                <a href="/property/details/<%= property._id %>" class="btn  btn-sm" style="background-color:#0b3553; color: #fff;">More</a>
+                <form method="GET" action="/favorite/<%= property._id %>" style="display:inline;">
+                  <button type="submit" class="btn btn-warning btn-sm">Remove</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+  const favoriteStatus = urlParams.get('favorite');
+
+  
+     if (favoriteStatus === 'removed') {
+    alert("⚠️ The property has been removed from favorites");
+  }
+  </script>
+</body>
+</html>

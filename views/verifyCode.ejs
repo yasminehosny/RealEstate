@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Code</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(#fdfbfb, #ebedee);
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 100%; max-width: 400px;
+    }
+    input, button {
+      width: 100%; padding: 12px;
+      margin-top: 10px; border: 1px solid #ccc; border-radius: 8px;
+    }
+    button {
+      background-color: #27ae60; color: white;
+      font-weight: bold; cursor: pointer; transition: 0.3s;
+    }
+    button:hover {
+      background-color: #1e8449;
+    }
+        .error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Verification Code</h2>
+    <% if (error) { %>
+  <div class="error-message"><%= error %></div>
+<% } %>
+
+    <form action="/verifyCode" method="POST">
+      <input type="text" name="code" required placeholder="Enter the 6-digit code">
+      <button type="submit">Verify</button>
+    </form>
+  </div>
+</body>
+</html>

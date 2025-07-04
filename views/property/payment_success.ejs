@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تم الدفع</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body class="text-center p-5">
+
+  <div class="container">
+    <h2 class="text-success">✅ Payment successful!</h2>
+    <p>Thank you, your ad has been activated with the address:</p>
+    <h4><%= property.address %></h4>
+    <a href="/property/details/<%= property._id %>" class="btn btn-primary mt-4">show ad</a>
+    <a href="/rate" class="btn btn-primary mt-4">rate</a>
+  </div>
+
+</body>
+</html>

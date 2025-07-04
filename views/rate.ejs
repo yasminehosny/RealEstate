@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rate Our Website</title>
+  <link rel="stylesheet" href="/rate.css"/>
+  <link rel="stylesheet" href="/all.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+</head>
+<body>
+  <div class="rate">
+    <div class="rate_container">
+      <h2>How Was Your Experience?</h2>
+
+      <form id="ratingForm" action="/rate" method="POST">
+        <div class="star-rating">
+          <i class="far fa-star" data-value="1"></i>
+          <i class="far fa-star" data-value="2"></i>
+          <i class="far fa-star" data-value="3"></i>
+          <i class="far fa-star" data-value="4"></i>
+          <i class="far fa-star" data-value="5"></i>
+        </div>
+
+        <input type="hidden" name="rating" id="ratingInput" value="0"/>
+
+        <div class="form-group">
+          <label for="ratingSelect">Choose Your Rating:</label>
+          <select id="ratingSelect">
+            <option value="0">-- Choose Rating --</option>
+            <option value="1">1 - Very Bad</option>
+            <option value="2">2 - Bad</option>
+            <option value="3">3 - Neutral</option>
+            <option value="4">4 - Good</option>
+            <option value="5">5 - Excellent</option>
+          </select>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <div class="form-group">
+          <textarea name="comment" id="comment" rows="5" placeholder="Tell us more about your experience (optional)"></textarea>
+        </div>
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let rating = 0;
+    const stars = document.querySelectorAll(".star-rating i");
+
+    stars.forEach((star, index) => {
+      star.addEventListener("click", () => {
+        rating = index + 1;
+        document.getElementById("ratingInput").value = rating;
+        updateStars();
+      });
+    });
+
+    function updateStars() {
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.replace("far", "fas");
+        } else {
+          star.classList.replace("fas", "far");
+        }
+      });
+      document.getElementById("ratingSelect").value = rating;
+    }
+
+    document.getElementById("ratingSelect").addEventListener("change", (event) => {
+      rating = parseInt(event.target.value, 10);
+      document.getElementById("ratingInput").value = rating;
+      updateStars();
+    });
+
+    document.getElementById("ratingForm").addEventListener("submit", (event) => {
+      if (rating === 0) {
+        event.preventDefault();
+        document.getElementById("error-message").innerText = "Please choose a rating before submitting";
+        document.getElementById("error-message").style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>

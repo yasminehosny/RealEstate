@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/chat.css"/>
+  <style>
+    .chat-bubble {
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 90%;
+      display: inline-block;
+      word-wrap: break-word;
+      font-size: 15px;
+    }
+
+    .sent {
+      background-color: #007bff;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .received {
+      background-color: #f1f1f1;
+      color: #333;
+      align-self: flex-start;
+    }
+
+    .message-wrapper {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .justify-content-end {
+      justify-content: flex-end;
+    }
+
+    .justify-content-start {
+      justify-content: flex-start;
+    }
+
+    .sender-label {
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #6c757d;
+    }
+
+    /* ✅ تنسيقات خاصة بالأدمن فقط */
+    .admin-view .owner-bubble {
+      background-color: #007bff;
+      color: white;
+      align-self: flex-end;
+      width: 50vw;
+      padding: 2vw 1vh;
+    }
+
+    .admin-view .client-bubble {
+      background-color: #e4e6eb;
+      color: #333;
+      align-self: flex-start;
+      width: 50vw;
+      padding: 2vw 1vh;
+    }
+
+    .admin-view .justify-end {
+      justify-content: flex-end;
+    }
+
+    .admin-view .justify-start {
+      justify-content: flex-start;
+    }
+
+    .admin-view .sender-label {
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+
+<body class="<%= isAdmin ? 'admin-view' : '' %>">
+  <div class="container py-4">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Chat about: <%= property.address %></h4>
+      </div>
+
+      <!-- ✅ الرسائل -->
+      <%
+        const currentUserId = user._id;
+      %>
+      <div class="card-body" style="height: 70vh; overflow-y: auto;" id="messages">
+        <% messages.forEach(msg => {
+            const isAdminViewer = isAdmin;
+            const isSenderClient = msg.sender.toString() !== property.userID._id.toString();
+            const senderLabel = isSenderClient ? 'Client' : 'Owner';
+            const isSender = msg.sender.toString() === currentUserId.toString();
+
+            const bubbleClass = isAdminViewer
+              ? (isSenderClient ? 'client-bubble' : 'owner-bubble')
+              : (isSender ? 'sent' : 'received');
+
+            const justifyClass = isAdminViewer
+              ? (isSenderClient ? 'justify-start' : 'justify-end')
+              : (isSender ? 'justify-content-end' : 'justify-content-start');
+        %>
+          <div class="message-wrapper <%= justifyClass %>">
+            <div class="d-flex flex-column">
+              <% if (isAdminViewer) { %>
+                <div class="sender-label <%= isSenderClient ? '' : 'text-end' %>"><%= senderLabel %></div>
+              <% } %>
+              <div class="chat-bubble <%= bubbleClass %>">
+                <%= msg.message %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- ✅ فورم الإرسال أو تحذير للأدمن -->
+      <div class="card-footer">
+        <% if (!isAdmin) { %>
+          <form id="chatForm" class="d-flex">
+            <input type="hidden" id="senderId" value="<%= user._id %>">
+            <input type="hidden" id="receiverId" value="<%= receiverId %>">
+            <input type="hidden" id="propertyId" value="<%= property._id %>">
+            <input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message..." required>
+            <button type="submit" class="btn btn-warning">Send</button>
+          </form>
+        <% } else { %>
+          <div class="text-muted text-center py-2">⚠️ Admin can't send messages</div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script src="/scripts/chat.js"></script>
+</body>
+</html>

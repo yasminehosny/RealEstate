@@ -1,0 +1,120 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+
+.rate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+   
+}
+
+
+.rate_container {
+    background: linear-gradient(135deg, #f7f7f7, #a0c2e3);
+    padding: 40px; 
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); 
+    width: 100%;
+    max-width: 500px; 
+}
+
+
+.rate_container h2 {
+    text-align: center;
+    font-size: 28px; 
+    color: rgb(12, 37, 61); 
+    margin-bottom: 30px;
+}
+
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+    margin-bottom: 30px;
+}
+
+.star-rating i {
+    font-size: 35px; 
+    cursor: pointer;
+    color: #ffc115; 
+    transition: color 0.2s;
+}
+
+.star-rating i.selected {
+    color: #F4C43C; 
+}
+
+.star-rating i:hover {
+    color: #f5c646; 
+
+}
+
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600; 
+    color: #375978; 
+}
+
+select, textarea {
+    width: 100%;
+    padding: 12px; 
+    border-radius: 8px; 
+    border: 1px solid #4e6071; 
+    font-size: 16px;
+    box-shadow: none; 
+    transition: border-color 0.2s; 
+    resize:none;
+}
+
+select:focus, textarea:focus {
+    border-color: #264a6b; 
+    outline: none; 
+}
+
+/* رسالة الخطأ */
+.error-message {
+    color: #a60112; 
+    font-size: 17px;
+    display: none;
+    margin-bottom: 20px;
+}
+
+
+button {
+    background-color: #2b6189de; 
+    color: white;
+    padding: 14px 25px; 
+    border: none;
+    border-radius: 8px; 
+    width: 100%;
+    font-size: 18px; 
+    font-weight: 600; 
+    cursor: pointer;
+    transition:0.3s;
+}
+
+button:hover {
+    background-color: #243647; 
+}

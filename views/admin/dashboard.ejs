@@ -1,0 +1,141 @@
+<!-- views/admin/dashboard.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/all.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-gauge"></i> Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item active">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/users" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Users</span>
+        </a>
+        <a href="/admin/properties" class="nav-item">
+          <i class="fa-solid fa-building"></i>
+          <span>Properties</span>
+        </a>
+        <a href="/admin/bookings" class="nav-item">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Bookings</span>
+        </a>
+        <a href="/admin/categories" class="nav-item">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categories</span>
+        </a>
+        <a href="/admin/feedbacks" class="nav-item">
+          <i class="fa-solid fa-comments"></i>
+          <span>Feedbacks</span>
+        </a>
+        <a href="/admin/messages" class="nav-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Messages</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-header-left">
+          <h1>Welcome back, <%= admin.name %>!</h1>
+          <p class="subtitle">Here's what's happening with your platform today.</p>
+        </div>
+        <div class="dashboard-header-right">
+          <button class="btn btn-outline" onclick="location.reload()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <form method="post" action="/admin/logout" style="display:inline;">
+            <button class="btn btn-danger" type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="card card-users" onclick="window.location.href='/admin/users'">
+          <div class="card-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="card-content">
+            <h3>Total Users</h3>
+            <p class="card-number"><%= stats.users %></p>
+            <span class="card-label">Registered users</span>
+          </div>
+        </div>
+
+        <div class="card card-properties" onclick="window.location.href='/admin/properties'">
+          <div class="card-icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <div class="card-content">
+            <h3>Properties</h3>
+            <p class="card-number"><%= stats.properties %></p>
+            <span class="card-label">Available properties</span>
+          </div>
+        </div>
+
+        <div class="card card-bookings" onclick="window.location.href='/admin/bookings'">
+          <div class="card-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div class="card-content">
+            <h3>Bookings</h3>
+            <p class="card-number"><%= stats.bookings %></p>
+            <span class="card-label">Total bookings</span>
+          </div>
+        </div>
+
+        <div class="card card-categories" onclick="window.location.href='/admin/categories'">
+          <div class="card-icon">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <div class="card-content">
+            <h3>Categories</h3>
+            <p class="card-number"><%= stats.categories %></p>
+            <span class="card-label">Property categories</span>
+          </div>
+        </div>
+
+        <div class="card card-feedbacks" onclick="window.location.href='/admin/feedbacks'">
+          <div class="card-icon">
+            <i class="fa-solid fa-comments"></i>
+          </div>
+          <div class="card-content">
+            <h3>Feedbacks</h3>
+            <p class="card-number"><%= stats.feedbacks %></p>
+            <span class="card-label">User reviews</span>
+          </div>
+        </div>
+
+        <div class="card card-messages" onclick="window.location.href='/admin/messages'">
+          <div class="card-icon">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div class="card-content">
+            <h3>Messages</h3>
+            <p class="card-number"><%= stats.messages %></p>
+            <span class="card-label">Contact messages</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

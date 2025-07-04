@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Feedbacks</title>
+  <link rel="stylesheet" href="/all.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-gauge"></i> Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/users" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Users</span>
+        </a>
+        <a href="/admin/properties" class="nav-item">
+          <i class="fa-solid fa-building"></i>
+          <span>Properties</span>
+        </a>
+        <a href="/admin/bookings" class="nav-item">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Bookings</span>
+        </a>
+        <a href="/admin/categories" class="nav-item">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categories</span>
+        </a>
+        <a href="/admin/feedbacks" class="nav-item active">
+          <i class="fa-solid fa-comments"></i>
+          <span>Feedbacks</span>
+        </a>
+        <a href="/admin/messages" class="nav-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Messages</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1><i class="fa-solid fa-comments"></i> Feedbacks Management</h1>
+          <p>Manage user feedbacks and reviews</p>
+        </div>
+        <div class="page-header-right">
+          <button class="btn btn-outline" onclick="location.reload()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <form method="post" action="/admin/logout" style="display:inline;">
+            <button class="btn btn-danger" type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="table-container">
+          <% if (typeof success !== 'undefined' && success) { %>
+            <div id="successAlert" class="alert alert-success" style="margin: 24px auto; max-width: 600px; text-align: center; font-weight: bold; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 6px; box-shadow: 0 8px 24px rgba(40,167,69,0.15); transform: translateY(-40px); opacity: 0; transition: all 0.5s cubic-bezier(.68,-0.55,.27,1.55);">
+              <i class="fa-solid fa-check-circle" style="margin-right:8px;"></i> <%= success %>
+            </div>
+            <script>
+              window.addEventListener('DOMContentLoaded', function() {
+                var alert = document.getElementById('successAlert');
+                if(alert) {
+                  setTimeout(function() {
+                    alert.style.transform = 'translateY(0)';
+                    alert.style.opacity = '1';
+                  }, 100);
+                  setTimeout(function() {
+                    alert.style.transform = 'translateY(-40px)';
+                    alert.style.opacity = '0';
+                  }, 3100);
+                  setTimeout(function() {
+                    alert.remove();
+                  }, 3700);
+                }
+              });
+            </script>
+          <% } %>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% feedbacks.forEach(feedback => { %>
+                <tr>
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                      </div>
+                      <div class="user-details">
+                        <span class="user-name"><%= feedback.userId ? feedback.userId.username : 'N/A' %></span>
+                        <span class="user-email"><%= feedback.userId ? feedback.userId.email : 'N/A' %></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="rating-display">
+                      <% for(let i = 1; i <= 5; i++) { %>
+                        <i class="fa-solid fa-star <%= i <= feedback.rating ? 'star-filled' : 'star-empty' %>"></i>
+                      <% } %>
+                      <span class="rating-text">(<%= feedback.rating %>/5)</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="comment-text">
+                      <%= feedback.comment %>
+                    </div>
+                  </td>
+                  <td><%= new Date(feedback.date).toLocaleDateString() %></td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn-icon" title="View Details" onclick="openFeedbackDetailsModal('<%= feedback._id %>')">
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                      <form method="POST" action="/admin/feedbacks/<%= feedback._id %>/delete" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this feedback?');">
+                        <button class="btn-icon btn-danger" title="Delete Feedback" type="submit">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feedback Details Modal -->
+  <div id="feedbackDetailsModal" class="modal" style="display:none; background:rgba(0,0,0,0.18); z-index:1000;">
+    <div class="modal-content" style="max-width:480px; border-radius:18px; box-shadow:0 12px 40px rgba(79,70,229,0.13); background:#fff; border:2.5px solid #4f46e5; padding:0; overflow:hidden;">
+      <div style="background:linear-gradient(135deg,#4f46e5 70%,#a78bfa 100%); padding:28px 0 18px 0; text-align:center;">
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div style="width:80px; height:80px; background:#ede9fe; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(79,70,229,0.10); margin-bottom:10px;">
+            <i class="fa-solid fa-comments" style="font-size:2.7rem; color:#fff;"></i>
+          </div>
+          <div style="font-size:1.18rem; font-weight:600; color:#fff; letter-spacing:0.5px;">
+            <i class="fa-solid fa-user-tag" style="color:#ede9fe;"></i> <span id="fbUserName">User</span>
+          </div>
+          <div style="font-size:0.98rem; color:#ede9fe; margin-top:2px;">
+            <i class="fa-solid fa-envelope"></i> <span id="fbUserEmail">Email</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:28px 24px 18px 24px;">
+        <table style="width:100%; border-collapse:collapse;">
+          <tr>
+            <th style="text-align:left; color:#4f46e5; font-weight:600; padding-bottom:8px;">Rating</th>
+            <td id="fbRating" style="padding-bottom:8px;"></td>
+          </tr>
+          <tr>
+            <th style="text-align:left; color:#4f46e5; font-weight:600; padding-bottom:8px;">Comment</th>
+            <td id="fbComment" style="padding-bottom:8px; color:#333;"></td>
+          </tr>
+          <tr>
+            <th style="text-align:left; color:#4f46e5; font-weight:600;">Date</th>
+            <td id="fbDate" style="color:#555;"></td>
+          </tr>
+        </table>
+      </div>
+      <div style="text-align:right; padding:0 24px 18px 24px;">
+        <button type="button" class="btn btn-outline" onclick="closeFeedbackDetailsModal()">Close</button>
+      </div>
+      <button class="modal-close" onclick="closeFeedbackDetailsModal()" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:1.3rem; color:#fff; cursor:pointer;">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+  </div>
+  <script>
+    const feedbacksData = <%- JSON.stringify(feedbacks) %>;
+    function openFeedbackDetailsModal(id) {
+      const fb = feedbacksData.find(f => f._id === id);
+      if (!fb) return;
+      document.getElementById('fbUserName').textContent = fb.userId?.username || 'N/A';
+      document.getElementById('fbUserEmail').textContent = fb.userId?.email || 'N/A';
+      let stars = '';
+      for(let i=1;i<=5;i++) stars += `<i class='fa-solid fa-star' style='font-size:1.3rem; margin-right:2px; color:${i<=fb.rating?'#fbbf24':'#e4e5e9'};'></i>`;
+      document.getElementById('fbRating').innerHTML = `${stars} <span style='font-weight:normal; color:#888;'>(${fb.rating}/5)</span>`;
+      document.getElementById('fbComment').innerHTML = `<span style='display:inline-block; margin-top:2px; background:#f5f7fa; border-radius:8px; padding:8px 12px;'>${fb.comment||''}</span>`;
+      document.getElementById('fbDate').textContent = fb.date ? new Date(fb.date).toLocaleString() : 'N/A';
+      document.getElementById('feedbackDetailsModal').style.display = 'flex';
+    }
+    function closeFeedbackDetailsModal() {
+      document.getElementById('feedbackDetailsModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html> 

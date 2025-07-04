@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Details</title>
+  <link rel="stylesheet" href="/all.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-gauge"></i> Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a href="/admin/users" class="nav-item active"><i class="fa-solid fa-users"></i><span>Users</span></a>
+        <a href="/admin/properties" class="nav-item"><i class="fa-solid fa-building"></i><span>Properties</span></a>
+        <a href="/admin/bookings" class="nav-item"><i class="fa-solid fa-calendar-check"></i><span>Bookings</span></a>
+        <a href="/admin/categories" class="nav-item"><i class="fa-solid fa-layer-group"></i><span>Categories</span></a>
+        <a href="/admin/feedbacks" class="nav-item"><i class="fa-solid fa-comments"></i><span>Feedbacks</span></a>
+        <a href="/admin/messages" class="nav-item"><i class="fa-solid fa-envelope"></i><span>Messages</span></a>
+      </nav>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1><i class="fa-solid fa-user"></i> User Details</h1>
+          <p>View all information about this user</p>
+        </div>
+        <div class="page-header-right">
+          <a href="/admin/users" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Back to Users</a>
+        </div>
+      </div>
+      <div class="content-card" style="max-width: 600px; margin: 0 auto;">
+        <div class="user-details-card">
+          <div style="display: flex; align-items: center; gap: 24px;">
+            <div class="user-avatar-lg">
+              <% if (user.image) { %>
+                <img src="/uploads/<%= user.image %>" alt="User Image" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid #007bff;">
+              <% } else { %>
+                <i class="fa-solid fa-user fa-4x" style="color: #007bff;"></i>
+              <% } %>
+            </div>
+            <div>
+              <h2 style="margin: 0 0 8px 0;"><%= user.username %></h2>
+              <span class="badge badge-<%= user.role === 'admin' ? 'admin' : 'user' %>"><%= user.role || 'user' %></span>
+            </div>
+          </div>
+          <hr style="margin: 24px 0;">
+          <table class="details-table">
+            <tr><th>Email:</th><td><%= user.email %></td></tr>
+            <tr><th>Phone:</th><td><%= user.phone || 'N/A' %></td></tr>
+            <tr><th>Address:</th><td><%= user.address || 'N/A' %></td></tr>
+            <tr><th>National ID:</th><td><%= user.nationalID || 'N/A' %></td></tr>
+            <tr><th>Joined:</th><td><%= user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A' %></td></tr>
+            <tr><th>User ID:</th><td><%= user._id %></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

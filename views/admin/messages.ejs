@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Messages</title>
+  <link rel="stylesheet" href="/all.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2><i class="fa-solid fa-gauge"></i> Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/admin/dashboard" class="nav-item">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin/users" class="nav-item">
+          <i class="fa-solid fa-users"></i>
+          <span>Users</span>
+        </a>
+        <a href="/admin/properties" class="nav-item">
+          <i class="fa-solid fa-building"></i>
+          <span>Properties</span>
+        </a>
+        <a href="/admin/bookings" class="nav-item">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Bookings</span>
+        </a>
+        <a href="/admin/categories" class="nav-item">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Categories</span>
+        </a>
+        <a href="/admin/feedbacks" class="nav-item">
+          <i class="fa-solid fa-comments"></i>
+          <span>Feedbacks</span>
+        </a>
+        <a href="/admin/messages" class="nav-item active">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Messages</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1><i class="fa-solid fa-envelope"></i> Messages Management</h1>
+          <p>Manage contact messages from users</p>
+        </div>
+        <div class="page-header-right">
+          <button class="btn btn-outline" onclick="location.reload()">
+            <i class="fa-solid fa-rotate"></i> Refresh
+          </button>
+          <form method="post" action="/admin/logout" style="display:inline;">
+            <button class="btn btn-danger" type="submit">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Date</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <% messages.forEach(message => { %>
+                <tr>
+                  <td>
+                    <div class="message-sender">
+                      <div class="sender-avatar">
+                        <i class="fa-solid fa-user"></i>
+                      </div>
+                      <div class="sender-details">
+                        <span class="sender-name"><%= message.name %></span>
+                        
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                  <span class="sender-email"><%= message.email %></span>
+                  </td>
+                  <td>
+                    <div class="message-preview">
+                      <%= message.message.length > 100 ? message.message.substring(0, 100) + '...' : message.message %>
+                    </div>
+                  </td>
+                  <td><%= new Date(message.createdAt).toLocaleDateString() %></td>
+                 
+                  
+                  
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Message Modal -->
+  <div id="viewMessageModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Message Details</h3>
+        <button class="modal-close" onclick="closeViewMessageModal()">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="message-details">
+          <div class="message-header">
+            <div class="message-sender-info">
+              <div class="sender-avatar">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <div>
+                <h4 id="modal-sender-name"></h4>
+                <p id="modal-sender-email"></p>
+              </div>
+            </div>
+            <div class="message-date" id="modal-message-date"></div>
+          </div>
+          <div class="message-subject" id="modal-message-subject"></div>
+          <div class="message-content" id="modal-message-content"></div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    
+
+  
+
+    
+  </script>
+</body>
+</html> 

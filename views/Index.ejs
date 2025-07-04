@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Samsarha</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/your_kit_code.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="css/styles.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+ 
+
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+   overflow-x: hidden;
+}
+
+
+main {
+  flex: 1;
+}
+
+      nav {
+          z-index: 100;
+      }
+
+       .header ul li a:hover {
+          /* font-size: 1.2em;
+        
+          transition: font-size 0.3s ease-in-out; */
+  }
+
+      .headerimg {
+          width: 10vw;
+          height: 10vh;
+      }
+
+      .homepage {
+  background-image: url(/images/main.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 120vh;
+  display: flex;               
+  justify-content: center;     
+  align-items: center;
+  
+}
+
+      .heroimg {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          
+         
+      }
+
+      /* search */
+      
+      .homeimg {
+          height: 55vh;
+          width: 100%;
+      }
+      .btn-primary:hover {
+          background-color: #5a52e3;
+          border-color: #5a52e3;
+      }
+     
+      /* ///////////////////notification////////////////////*/
+      .notification-container {
+          width: 100%;
+          max-width: 600px;
+          margin: 30px auto;
+          display: none;
+          opacity: 0;
+          transition: opacity 0.5s ease-out;
+          position: absolute;
+          top: 5%;
+          right: 5%;
+      }
+
+      
+      .styled-div-notification {
+          background: linear-gradient(135deg, #f7f7f7, #d4d4d4);
+          padding: 40px;
+          border-radius: 25px;
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+          text-align: center;
+          animation: slideDown 1s ease-out;
+          width: 100%;
+      }
+
+      .styled-div-notification:hover {
+          transform: scale(1.03);
+          box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+      }
+
+      @keyframes slideDown {
+          0% {
+              opacity: 0;
+              transform: translateY(-600px);
+          }
+
+          40% {
+              opacity: 0;
+              transform: translateY(-300px);
+          }
+
+          100% {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      
+      .show-notifications {
+          display: block;
+          opacity: 1;
+      }
+
+      
+      .notification {
+          height: 100vh;
+          display: flex;
+          justify-content: start;
+          align-items: top;
+          background-color: #f8f9fa;
+      }
+
+      .notification_container {
+          background: rgb(230, 235, 238);
+          padding: 20px;
+          border-radius: 12px;
+          width: 400px;
+          box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+          display: flex;
+          flex-direction: column;
+          font-family: sans-serif;
+      }
+
+      .title-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 15px;
+      }
+
+      .title {
+          font-size: 28px;
+          color: #343a40;
+          font-weight: 600;
+      }
+
+      .clear_btn {
+          padding: 10px 20px;
+          border: none;
+          background: #17a3b8f3;
+          color: white;
+          font-size: 16px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .clear_btn:hover {
+          background: #138496;
+      }
+
+      .notification_list {
+          list-style: none;
+          padding: 0;
+          max-height: 300px;
+          overflow-y: auto;
+          border-top: 1px solid #dee2e6;
+      }
+
+      .notification_list li {
+          background: #fff;
+          padding: 15px;
+          margin-bottom: 10px;
+          border-radius: 8px;
+          font-size: 16px;
+          color: #333;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .notification_list li:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+          background-color: #c6dadef3;
+      }
+
+      .loading {
+          color: gray;
+          font-style: italic;
+          text-align: center;
+          padding: 15px;
+      }
+      
+       .navbar-nav {
+              display: flex;
+              gap: 20px; 
+          }
+      
+          .nav-link {
+              position: relative;
+              padding: 8px 15px;
+              color: white;
+              font-weight: 500;
+              transition: color 0.3s ease-in-out;
+          }
+      
+          
+          .nav-link::before,
+          .nav-link::after {
+              content: "";
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              border: 2px solid white;
+              opacity: 0;
+              transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+          }
+      
+          
+          .nav-link::before {
+              top: 0;
+              left: 0;
+              transform: scaleX(0);
+              transform-origin: left;
+          }
+      
+          
+          .nav-link::after {
+              bottom: 0;
+              right: 0;
+              transform: scaleX(0);
+              transform-origin: right;
+          }
+      
+         
+          .nav-link:hover {
+              color: white;
+          }
+      
+          .nav-link:hover::before,
+          .nav-link:hover::after {
+              opacity: 1;
+              transform: scaleX(1);
+          }
+          .heart{
+              margin-left: 10px;
+              font-size: 25px;
+              color: #6c63ff;
+          }
+         
+           .comments-container {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          padding: 10px 0;
+      }
+
+      .comments-slider {
+          display: flex;
+          gap: 20px;
+          transition: transform 0.5s ease-in-out;
+          width: max-content;
+      }
+
+      .comments-card {
+          width: 320px;
+          border-radius: 15px;
+          overflow: hidden;
+          text-align: center;
+          padding: 15px;
+          background: linear-gradient(135deg, #b3cadc, #0b3553);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          color: white;
+          position: relative;
+      }
+      .comments-card:hover{
+          transform: scale(1.05);
+      }
+
+      .comments-card-img {
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+          border-radius: 50%;
+          margin: 0 auto;
+      }
+
+      .comments-card-body {
+          position: relative;
+          z-index: 1;
+      }
+
+      .comments-card-title {
+          font-size: 20px;
+          font-weight: bold;
+      }
+
+      .comments-stars {
+          font-size: 20px;
+          margin-bottom: 10px;
+      }
+
+      .comments-stars i {
+          color: gold;
+      }
+
+      .comments-btn {
+          background-color: #ff9f1a;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+      }
+
+      .comments-btn:hover {
+          background-color: #d97706;
+      }
+
+      .comments-prev-btn, .comments-next-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(255, 255, 255, 0.6);
+          color: #b7d6ed;
+          border: none;
+          padding: 15px 22px;
+          cursor: pointer;
+          font-size: 26px;
+          border-radius: 50%;
+          z-index: 10;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .comments-prev-btn { left: 10px; }
+      .comments-next-btn { right: 10px; }
+
+      .comments-prev-btn:hover, .comments-next-btn:hover {
+          background: rgba(255, 255, 255, 0.8);
+      }
+      
+/* //////////////// category//////////////////// */
+.category-slider-container {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+          padding: 10px 0;
+      }
+      .category-slider {
+          display: flex;
+          gap: 20px;
+          transition: transform 0.5s ease-in-out;
+          width: max-content;
+      }
+      .card {
+          width: 320px;
+          border-radius: 15px;
+          overflow: hidden;
+          text-align: center;
+          padding: 15px;
+          background: linear-gradient(135deg, #b3cadc, #0b3553);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+          color: white;
+      }
+      .card-img-top {
+          width: 100%;       
+          height: 200px;      
+          object-fit: cover; 
+      }
+      .btn-primary {
+          background-color: #ff9f1a;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 8px;
+      }
+      .btn-primary:hover {
+          background-color: #d97706;
+      }
+
+      
+      .prev-btn, .next-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(255, 255, 255, 0.6);
+          color: #b7d6ed;
+          border: none;
+          padding: 15px 22px;
+          cursor: pointer;
+          font-size: 26px;
+          border-radius: 50%;
+          z-index: 10;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); 
+      }
+      .prev-btn { left: 10px; }
+      .next-btn { right: 10px; }
+
+      .prev-btn:hover, .next-btn:hover {
+          background: rgba(255, 255, 255, 0.8);
+      }
+       
+
+#last-nav {
+  background-color: #2c3e50 !important; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#last-nav .navbar-brand {
+  color: #f8f9fa !important;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+#last-nav .nav-link {
+  color: #f8f9fa !important;
+  transition: color 0.3s ease-in-out;
+}
+
+#last-nav .nav-link:hover {
+  color: #f39c12 !important;
+}
+
+
+#nav-hidden {
+  background-color: rgba(44, 62, 80, 0.9) !important; 
+  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#nav-hidden .nav-link {
+  color: #f8f9fa !important;
+  transition: color 0.3s ease-in-out;
+}
+
+#nav-hidden .nav-link:hover {
+  color: #f39c12 !important;
+}
+
+
+.btn-secondary {
+  background-color: #f39c12 !important;
+  border-color: #e67e22 !important;
+  color: #fff !important;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background-color: #e67e22 !important;
+}
+
+
+.heart i {
+  color: #f8f9fa;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.heart:hover i {
+  color: #f39c12;
+}
+
+@media (max-width: 767px) {
+          .contact-box {
+              background: url('images/10.jpg') no-repeat center center;
+              background-size: cover;
+              color: white;
+              padding: 40px;
+              border-radius: 10px;
+          }
+          .contact-box form {
+              background: rgba(255, 255, 255, 0.8);
+              padding: 20px;
+              border-radius: 10px;
+          }
+      }
+
+      /* / //////// notifications */
+      .notification-container {
+    width: 350px;
+    margin: 30px auto;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    position: fixed;  /* fixed بدل absolute */
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+
+.styled-div-notification {
+    background: linear-gradient(135deg, #e0e3e5, #a3c0d5);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);  /* ظل أخف */
+    text-align: center;
+    animation: slideDown 0.8s ease-out;
+    width: 100%;
+}
+
+.styled-div-notification:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-300px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.show-notifications {
+    display: block;
+    opacity: 1;
+}
+
+.notification_list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    background-color: #e0ccad;  /* لون أكثر وضوح */
+}
+.notificationIcon{ 
+    color: #f39c12;
+    font-size: 2rem;
+   
+}
+.clear_btn{
+    font-size: 1rem;
+    width: 10vw;
+    margin-top: 4vh;
+    background-color: #0a233b;
+}
+  </style>
+</head>
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+  
+      <% if (user) { %>
+      <!-- Navbar للمستخدم المسجل -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75 w-100 position-fixed" id="nav-hidden">
+        <div class="container px-5 header">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+            <ul class="navbar-nav d-flex align-items-center">
+              <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="#comments-section">comments</a></li>
+              <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="#category">Category</a></li>
+              <li><a href="/property/add" class="btn btn-secondary rounded-3 px-3 py-2">Add Ad</a></li>
+              <li><a href="/logout" class="btn btn-secondary rounded-3 px-3 py-2">Logout</a></li>
+            </ul>
+          </div>
+          <div class="d-flex align-items-center ms-auto gap-4">
+        <a href="/user/profile" title="Profile">
+          <img 
+            src="<%= user && user.image && user.image !== 'default-user.png' 
+                    ? '/uploads/' + user.image 
+                    : '/images/default-user.png' %>" 
+            alt="Profile" class="rounded-circle" width="40" height="40">
+        </a>
+
+        <a id="notificationIcon" href="#" title="Show Notifications" aria-label="Show Notifications">
+          <i class="fas fa-bell notificationIcon"></i>
+        </a>
+
+        <a href="/my-favorites" title="My Favorites">
+          <i class="fa-solid fa-heart notificationIcon"></i>
+        </a>
+      </div>
+
+        </div>
+      </nav>
+      <div class="container  mt-4 searchdiv bg-black bg-opacity-50 rounded-4  py-2 position-absolute top-50 start-50 translate-middle w-75 " id="home-hidden">
+
+
+        <form id="searchForm" class="mb-4 ms-5" method="GET" action="/search">
+<div class="row g-3">
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    
+    <label for="category" class="text-white">Category</label>
+<select id="category" name="category" class="form-control">
+  <option value="">All Categories</option>
+  <% categories.forEach(function(cat) { %>
+    <option value="<%= cat.name %>"><%= cat.name %></option>
+  <% }); %>
+</select>
+
+  </div>
+
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    <label for="maxPrice" class="text-white">Max Price</label>
+    <input type="number" id="maxPrice" name="maxPrice" class="form-control" placeholder="Enter max price">
+  </div>
+
+  <div class="col-lg-3 col-md-6 col-sm-12">
+    <label for="address" class="text-white">Address</label>
+    <input type="text" id="address" name="address" class="form-control" placeholder="Search by address">
+  </div>
+
+  <div class="col-lg-2 col-md-4 col-sm-6">
+    <label for="status" class="text-white">Status</label>
+    <select id="status" name="status" class="form-control">
+      <option value="" disabled>All Statuses</option>
+      <option value="Sell">For Sale</option>
+      <option value="Rent">For Rent</option>
+    </select>
+  </div>
+
+  <div class="col-lg-2 col-md-4 col-sm-6 d-flex align-items-end">
+    <button type="submit" class="btn btn-warning w-100">Search</button>
+  </div>
+</div>
+
+</form>
+
+    </div>
+      <% } else { %>
+      <!-- Navbar للزائر -->
+      <nav class="navbar navbar-expand-lg bg-secondary position-fixed w-100" id="last-nav">
+        <div class="container px-5">
+          <a class="navbar-brand" href="/">Samsarha</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="#comments-section">comments</a></li>
+              <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+              <li class="nav-item"><a class="nav-link" href="#category">Category</a></li>
+            </ul>
+          </div>
+        </div>
+        
+      </nav>
+      <% } %>
+  
+      <section class="bg-success py-5 homepage">
+        <div class="container px-5 heroimg">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+              <% if (!user) { %>
+              <div class="my-5 text-center text-xl-start px-4 py-3 rounded-4" id="login" style="background-color: #2c3e50; opacity:0.9">
+                <h1 class="display-5 fw-bolder text-white mb-2">Find Your Perfect Home with Ease!</h1>
+                <p class="lead fw-normal text-white-50 mb-4">Discover thousands of properties for sale or rent, and book a viewing for your dream home with just one click.</p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                  <a class="btn btn-warning btn-lg px-4 me-sm-3" href="/login">Login</a>
+                  <a class="btn btn-outline-light btn-lg px-3" href="/user/Register">Sign-up</a>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+  
+        
+          
+      
+        
+      </section>
+    
+  <section id="category" class="py-5" style="background-color:#f1f0ee; color:#15304a; position: relative; overflow: hidden;">
+    <div class="container px-5 my-5">
+        <div class="text-center m-1 p-1">
+            <h2>Our Categories</h2>
+        </div>
+        <div class="category-slider-container">
+            <div class="category-slider" id="category-slider"></div>
+        </div>
+        <!-- الأزرار المعدلة -->
+        <button class="prev-btn" type="button" id="prevBtn">&#8249;</button>
+        <button class="next-btn" type="button" id="nextBtn">&#8250;</button>
+    </div>
+   
+
+  <div class="notification-container" id="notificationContainer" role="region" aria-live="polite" aria-atomic="true" aria-label="Notifications">
+    <div class="styled-div-notification">
+      <div class="title-bar">
+        <h2 class="title">🔔 Notifications</h2>
+        <button id="clearNotifications" class="clear_btn" aria-label="Clear all notifications">Clear All</button>
+      </div>
+      <ul class="notification_list">
+  <% notifications.forEach(n => { %>
+    <li><%- n.text %></li>  <!-- استخدمي <%- %> مش <%= %> -->
+  <% }) %>
+</ul>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- /////////////////////////comments////////////////////////////////// -->
+<section id="comments-section" class="container" style="color:#15304a; position: relative; overflow: hidden;">
+  <div class="comments-container p-5">
+    <div class="text-center m-1 p-3">
+      <h2>Comments</h2>
+    </div>
+    <div class="comments-slider-container">
+      <div class="comments-slider d-flex" id="comments-slider">
+        <% feedbacks.forEach(comment => { %>
+  <div class="comments-card p-3 text-center shadow">
+    <img 
+  src="<%= comment.userId && comment.userId.image && comment.userId.image !== 'default-user.png'
+          ? '/uploads/' + comment.userId.image 
+          : '/images/default-user.png' %>" 
+  class="comments-card-img" 
+  alt="<%= comment.userId ? comment.userId.username : 'Unknown User' %>">
+
+
+    <div class="comments-card-body">
+      <h5 class="comments-card-title"><%= comment.userId ? comment.userId.username : 'Unknown User' %></h5>
+
+      <div class="comments-stars">
+        <% for (let i = 1; i <= 5; i++) { %>
+          <i class="<%= i <= comment.rating ? 'fas' : 'far' %> fa-star"></i>
+        <% } %>
+      </div>
+      <p class="comments-card-text">"<%= comment.comment %>"</p>
+    </div>
+  </div>
+<% }) %>
+
+      </div>
+    </div>
+    <button class="comments-prev-btn" type="button" id="comments-prev-btn">&#8249;</button>
+    <button class="comments-next-btn" type="button" id="comments-next-btn">&#8250;</button>
+  </div>
+</section>
+
+
+
+<!-- ///////////////////////////// about us/////////////////////////////// -->
+<section id="about" class="py-5" style="background-color:#f1f0ee;">
+  <div class="container">
+      <div class="row text-center mb-5">
+          <div class="col-12">
+              <h2 class="display-4" style="color:#15304a;">About samsarha</h2>
+              <p class="lead text-muted" style="color:#15304a;">A platform to help you find the best properties for sale or rent.</p>
+          </div>
+      </div>
+      <div class="row align-items-stretch" style="background-color:#f1f0ee;">
+          <!-- Image Column -->
+          <div class="col-md-6 mb-4 d-flex align-items-center">
+              <img src="./images/img7.jpg" alt="About Smserha"
+                  class="img-fluid rounded shadow-lg w-100 h-100 object-cover mt-2 p-2" />
+          </div>
+
+          <!-- Text Column -->
+          <div class="col-md-6 d-flex align-items-center">
+              <div class="w-100">
+                  <h3 class="mb-4" style="color:#15304a;">Welcome to samsarha</h3>
+                  <p class="text-muted" style="color:#15304a;">At samsarha, we are dedicated to providing the most reliable and
+                      user-friendly platform for property listings. Whether you're looking to buy, sell, or
+                      rent a property, Smserha offers you a wide range of options with real-time communication
+                      between buyers and sellers. Our mission is to make the real estate process as easy and
+                      efficient as possible for everyone.</p>
+                  <p class="text-muted">We bring together property owners and prospective buyers or renters
+                      through a simple, transparent, and secure platform. Our advanced features include
+                      property listings, booking viewings, and direct messaging with owners, all in one place.
+                  </p>
+                  <p><a href="#category" class="btn btn-warning">Explore</a></p>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+</section>
+<section>
+   <!-- ////////////////     contact     //////////////// -->
+ 
+ <div class="container my-5" id="contact">
+    
+    <div class="container" id="contact">
+   
+
+        <div class="row text-center">
+            <div class="col-12">
+                <h2 class="display-4 text-capitalize" style="color:#15304a;">contact us</h2>
+                <p class="lead text-muted" style="color:#15304a;">For any inquiries or support, please contact the admin through the form below, and our team will respond as soon as possible.</p>
+            </div>
+        </div>
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="col-md-10">
+                <div class="contact-box d-flex flex-column flex-md-row justify-content-center align-items-center border rounded shadow-sm bg-light p-4">
+                    <!-- الصورة العادية على الشاشات الكبيرة -->
+                    <div class="col-md-6 text-center image-container d-none d-md-block">
+                        <img src="images/10.jpg" class="img-fluid rounded" alt="Contact Image">
+                    </div>
+                    <!-- الفورم -->
+                    <div class="col-12 col-md-6 mx-3">
+                        <form id="contact-form" action="/contact" method="POST">
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+</main>
+
+<footer class=" py-4 mt-auto" style="background-color: #0a233b;;">
+  <div class="container px-5">
+      <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+          <div class="col-auto">
+              <div class="small m-0 text-white">Copyright &copy; Graduation 2025</div>
+          </div>
+          <div class="col-auto">
+              <a class="link-light small" href="#!">Privacy</a>
+              <span class="text-white mx-1">&middot;</span>
+              <a class="link-light small" href="#!">Terms</a>
+              <span class="text-white mx-1">&middot;</span>
+              <a class="link-light small" href="#!">Contact</a>
+          </div>
+      </div>
+  </div>
+</footer>
+<script>
+  let scrollIndex = 0;
+const visibleCards = 3;
+let totalCards = 0;
+const slider = document.getElementById("category-slider");
+
+fetch("/api/categories")  // استدعاء الـ API الخاصة بالكاتيجوريز
+    .then(response => response.json())
+    .then(data => {
+        totalCards = data.categories.length;
+        data.categories.forEach(category => {
+            let card = document.createElement("div");
+            card.classList.add("card");
+            card.innerHTML = `
+                <img src="/uploads/${category.image}" class="card-img-top" alt="${category.name}" >
+
+                <div class="card-body">
+                    <h5 class="card-title">${category.name}</h5>
+                    <p class="card-text">${category.description}</p>
+                    <a href="/property/allproperties?category_name=${category.name}" class="btn btn-warning">More</a>
+
+                </div>
+            `;
+            slider.appendChild(card);
+        });
+    })
+    .catch(err => {
+        console.error("Error fetching categories:", err);
+    });
+
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+function scrollLeft() {
+    if (scrollIndex > 0) {
+        scrollIndex--;
+        updateScroll();
+    }
+}
+
+function scrollRight() {
+    if (scrollIndex < totalCards - visibleCards) {
+        scrollIndex++;
+        updateScroll();
+    }
+}
+
+function updateScroll() {
+    slider.style.transform = `translateX(-${scrollIndex * 340}px)`;
+    updateControls();
+}
+
+function updateControls() {
+    prevBtn.classList.toggle("d-none", scrollIndex === 0);
+    nextBtn.classList.toggle("d-none", scrollIndex === totalCards - visibleCards);
+}
+
+prevBtn.addEventListener("click", scrollLeft);
+nextBtn.addEventListener("click", scrollRight);
+// ////////// notifiactions/////////////
+ 
+  document.addEventListener('DOMContentLoaded', function() {
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationContainer = document.getElementById('notificationContainer');
+
+    notificationIcon.addEventListener('click', function(e) {
+      e.preventDefault();
+      notificationContainer.classList.toggle('show-notifications');
+    });
+    document.addEventListener('click', function(e) {
+    // لو النوتيفيكيشن ظاهر
+    if (notificationContainer.classList.contains('show-notifications')) {
+      // لو اللي اتداس عليه مش جوه النوتيفيكيشن ولا هو أيقونة الجرس
+      if (
+        !notificationContainer.contains(e.target) &&
+        !notificationIcon.contains(e.target)
+      ) {
+        notificationContainer.classList.remove('show-notifications');
+      }
+    }
+  });
+    // لو حابب تضيف زر 'Clear All' يخفف الاشعارات من القائمة (حسب كودك)
+    document.getElementById("clearNotifications").addEventListener("click", async () => {
+    const confirmed = confirm("Are you sure you want to clear all notifications?");
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch('/notifications/clear', {
+        method: 'DELETE'
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        document.querySelector(".notification_list").innerHTML = ""; // Clear UI
+        alert(result.message);
+      } else {
+        alert("Error: " + result.message);
+      }
+    } catch (err) {
+      console.error("Error clearing notifications", err);
+      alert("An error occurred while clearing notifications.");
+    }
+  });
+  });
+// ///////////// comments/////////////////
+let commentsScrollIndex = 0;
+  const visibleCommentsCards = 3;
+  const commentsSlider = document.getElementById("comments-slider");
+  const totalCommentsCards = commentsSlider.children.length;
+
+  function updateCommentsControls() {
+    document.getElementById("comments-prev-btn").classList.toggle("d-none", commentsScrollIndex === 0);
+    document.getElementById("comments-next-btn").classList.toggle("d-none", commentsScrollIndex >= totalCommentsCards - visibleCommentsCards);
+  }
+
+  document.getElementById("comments-prev-btn").addEventListener("click", () => {
+    if (commentsScrollIndex > 0) commentsScrollIndex--;
+    commentsSlider.style.transform = `translateX(-${commentsScrollIndex * 340}px)`;
+    updateCommentsControls();
+  });
+
+  document.getElementById("comments-next-btn").addEventListener("click", () => {
+    if (commentsScrollIndex < totalCommentsCards - visibleCommentsCards) commentsScrollIndex++;
+    commentsSlider.style.transform = `translateX(-${commentsScrollIndex * 340}px)`;
+    updateCommentsControls();
+  });
+
+  updateCommentsControls();
+
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
